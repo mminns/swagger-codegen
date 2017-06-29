@@ -50,7 +50,7 @@ namespace {{packageName}}.Client
             {{#operations}}
             {{classname}}Client = RestService.For<{{interfacePrefix}}{{classname}}>(new HttpClient(new AuthenticatedHttpClientHandler(getSchemeAndToken))
             {
-            BaseAddress = new Uri(url)
+                BaseAddress = new Uri(url)
             });
 
             {{/operations}}

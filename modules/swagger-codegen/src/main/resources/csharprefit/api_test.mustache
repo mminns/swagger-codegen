@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using RestSharp;
 using NUnit.Framework;
+using Refit;
 
 using {{packageName}}.Client;
 using {{packageName}}.{{apiPackage}};
@@ -25,7 +25,10 @@ namespace {{packageName}}.Test
     [TestFixture]
     public class {{classname}}Tests
     {
-        private {{classname}} instance;
+        private string hostUrl = "";
+        private string userAgent = "{{packageName}}.Test.{{classname}}Tests";
+
+        private {{interfacePrefix}}{{classname}} instance;
 
         /// <summary>
         /// Setup before each unit test
@@ -33,7 +36,7 @@ namespace {{packageName}}.Test
         [SetUp]
         public void Init()
         {
-            instance = new {{classname}}();
+            instance = RestService.For<{{interfacePrefix}}{{classname}}>(hostUrl);
         }
 
         /// <summary>
@@ -60,13 +63,13 @@ namespace {{packageName}}.Test
         /// Test {{operationId}}
         /// </summary>
         [Test]
-        public void {{operationId}}Test()
+        public async void {{operationId}}Test()
         {
             // TODO uncomment below to test the method and replace null with proper value
             {{#allParams}}
             //{{{dataType}}} {{paramName}} = null;
             {{/allParams}}
-            //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            //{{#returnType}}var response = await {{/returnType}}instance.{{operationId}}(userAgent{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
             {{#returnType}}//Assert.IsInstanceOf<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}}
         }
         {{/operation}}{{/operations}}
